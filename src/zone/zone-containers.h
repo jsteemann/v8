@@ -17,8 +17,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "absl/container/flat_hash_map.h"
-#include "absl/container/flat_hash_set.h"
+//#include "absl/container/flat_hash_map.h"
+//#include "absl/container/flat_hash_set.h"
 #include "src/base/functional.h"
 #include "src/base/intrusive-set.h"
 #include "src/base/small-map.h"
@@ -785,6 +785,14 @@ class SmallZoneMap
             ZoneMapInit<ZoneMap<K, V, Compare>>(zone)) {}
 };
 
+template <typename K, typename V, typename Hash = base::hash<K>,
+          typename KeyEqual = std::equal_to<K>>
+using ZoneAbslFlatHashMap = ZoneUnorderedMap<K, V, Hash, KeyEqual>;
+
+template <typename K, typename Hash = base::hash<K>,
+          typename KeyEqual = std::equal_to<K>>
+using ZoneAbslFlatHashSet = ZoneUnorderedSet<K, Hash, KeyEqual>;
+#if 0
 // A wrapper subclass for absl::flat_hash_map to make it easy to construct one
 // that uses a zone allocator. If you want to use a user-defined type as key
 // (K), you'll need to define a AbslHashValue function for it (see
@@ -819,6 +827,7 @@ class ZoneAbslFlatHashSet
       : absl::flat_hash_set<K, Hash, KeyEqual, ZoneAllocator<K>>(
             bucket_count, Hash(), KeyEqual(), ZoneAllocator<K>(zone)) {}
 };
+#endif
 
 // Typedefs to shorten commonly used vectors.
 using IntVector = ZoneVector<int>;
