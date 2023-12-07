@@ -349,7 +349,7 @@
             'U_COMMON_IMPLEMENTATION',
           ],
           'dependencies': [
-            'icudata',
+#            'icudata',
           ],
           'direct_dependent_settings': {
             'include_dirs': [

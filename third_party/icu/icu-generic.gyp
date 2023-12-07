@@ -8,11 +8,11 @@
 {
   'variables': {
     'icu_src_derb': [
-      '<(icu_path)/source/tools/genrb/derb.c',
-      '<(icu_path)/source/tools/genrb/derb.cpp'
+      'source/tools/genrb/derb.c',
+      'source/tools/genrb/derb.cpp'
     ],
   },
-  'includes': [ '../../icu_config.gypi' ],
+  'includes': [ 'icu_config.gypi' ],
   'targets': [
     {
       # a target for additional uconfig defines, target only
@@ -107,7 +107,7 @@
             '<@(icu_src_i18n)'
           ],
           'include_dirs': [
-            '<(icu_path)/source/i18n',
+            'source/i18n',
           ],
           'defines': [
             'U_I18N_IMPLEMENTATION=1',
@@ -115,7 +115,7 @@
           'dependencies': [ 'icuucx', 'icu_implementation', 'icu_uconfig', 'icu_uconfig_target' ],
           'direct_dependent_settings': {
             'include_dirs': [
-              '<(icu_path)/source/i18n',
+              'source/i18n',
             ],
           },
           'export_dependent_settings': [ 'icuucx', 'icu_uconfig_target' ],
@@ -201,7 +201,7 @@
               'sources': [ '<(SHARED_INTERMEDIATE_DIR)/icudt<(icu_ver_major)_dat.<(icu_asm_ext)' ],
               'dependencies': [ 'genccode#host', 'icupkg#host', 'icu_implementation#host', 'icu_uconfig' ],
               'include_dirs': [
-                '<(icu_path)/source/common',
+                'source/common',
               ],
               'actions': [
                 {
@@ -285,7 +285,7 @@
               'sources': [ '<(SHARED_INTERMEDIATE_DIR)/icusmdt<(icu_ver_major)_dat.<(icu_asm_ext)' ],
               # for umachine.h
               'include_dirs': [
-                '<(icu_path)/source/common',
+                'source/common',
               ],
             }]], # end icu_small == true
         }]], # end OS != win
@@ -301,7 +301,7 @@
         '<@(icu_src_stubdata)'
       ],
       'include_dirs': [
-        '<(icu_path)/source/common',
+        'source/common',
       ],
     },
     # this target is for v8 consumption.
@@ -317,8 +317,16 @@
           'export_dependent_settings': [ 'icutools' ],
         }],
         ['_toolset=="target"', {
-          'dependencies': [ 'icuucx', 'icudata' ],
-          'export_dependent_settings': [ 'icuucx', 'icudata' ],
+          'dependencies': [ 
+            'icuucx',
+            'icustubdata',
+#            'icudata' 
+          ],
+          'export_dependent_settings': [ 
+            'icuucx', 
+            'icustubdata',
+#            'icudata' 
+          ],
         }],
       ],
     },
@@ -340,7 +348,7 @@
         ]}],
       ],
       'include_dirs': [
-        '<(icu_path)/source/common',
+        'source/common',
       ],
       'defines': [
         'U_COMMON_IMPLEMENTATION=1',
@@ -349,7 +357,7 @@
       'export_dependent_settings': [ 'icu_uconfig', 'icu_uconfig_target' ],
       'direct_dependent_settings': {
         'include_dirs': [
-          '<(icu_path)/source/common',
+          'source/common',
         ],
         'conditions': [
           [ 'OS=="win"', {
@@ -373,15 +381,15 @@
         '<@(icu_src_stubdata)',
       ],
       'sources!': [
-        '<(icu_path)/source/tools/toolutil/udbgutil.cpp',
-        '<(icu_path)/source/tools/toolutil/udbgutil.h',
-        '<(icu_path)/source/tools/toolutil/dbgutil.cpp',
-        '<(icu_path)/source/tools/toolutil/dbgutil.h',
+        'source/tools/toolutil/udbgutil.cpp',
+        'source/tools/toolutil/udbgutil.h',
+        'source/tools/toolutil/dbgutil.cpp',
+        'source/tools/toolutil/dbgutil.h',
       ],
       'include_dirs': [
-        '<(icu_path)/source/common',
-        '<(icu_path)/source/i18n',
-        '<(icu_path)/source/tools/toolutil',
+        'source/common',
+        'source/i18n',
+        'source/tools/toolutil',
       ],
       'defines': [
         'U_COMMON_IMPLEMENTATION=1',
@@ -398,9 +406,9 @@
       ],
       'direct_dependent_settings': {
         'include_dirs': [
-          '<(icu_path)/source/common',
-          '<(icu_path)/source/i18n',
-          '<(icu_path)/source/tools/toolutil',
+          'source/common',
+          'source/i18n',
+          'source/tools/toolutil',
         ],
         'conditions': [
           [ 'OS=="win"', {
