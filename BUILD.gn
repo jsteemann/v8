@@ -393,7 +393,7 @@ declare_args() {
 
   # Compile V8 using zlib as dependency.
   # Sets -DV8_USE_ZLIB
-  v8_use_zlib = true
+  v8_use_zlib = false #true
 
   # Make ValueDeserializer crash if the data to deserialize is invalid.
   v8_value_deserializer_hard_fail = false
