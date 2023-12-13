@@ -13,6 +13,63 @@
     ],
   },
   'includes': [ 'icu_config.gypi' ],
+  'target_defaults': {
+    'conditions': [
+      ['OS=="win"', {
+        'defines': [
+          'WIN32',
+          'NOMINMAX',  # Refs: https://chromium-review.googlesource.com/c/v8/v8/+/1456620
+          '_WIN32_WINNT=0x0602',  # Windows 8
+        ],
+        # 4351: VS 2005 and later are warning us that they've fixed a bug
+        #       present in VS 2003 and earlier.
+        'msvs_disabled_warnings': [4351],
+        'msvs_configuration_attributes': {
+          'CharacterSet': '1',
+        },
+        'msvs_settings': {
+          'VCCLCompilerTool': {
+            'AdditionalOptions': ['/std:c++20'],
+          },
+        },
+        'msvs_configuration_platform': 'x64',
+      }],
+    ],  # conditions
+    'configurations': {
+      'Debug': {
+        'defines': [
+          'DEBUG',
+        ],
+      },
+      'Release': {
+        'conditions': [
+          ['OS=="win"', {
+            'msvs_settings': {
+              'VCCLCompilerTool': {
+                'Optimization': '2',
+                'InlineFunctionExpansion': '2',
+                'EnableIntrinsicFunctions': 'true',
+                'FavorSizeOrSpeed': '0',
+                'StringPooling': 'true',
+                'conditions': [
+                  ['component=="shared_library" or force_dynamic_crt==1', {
+                    'RuntimeLibrary': '2',  #/MD
+                  }, {
+                    'RuntimeLibrary': '0',  #/MT
+                  }],
+                ],
+              },
+              'VCLinkerTool': {
+                'LinkIncremental': '1',
+                'OptimizeReferences': '2',
+                'EnableCOMDATFolding': '2',
+              },
+            },
+          }],  # OS=="win"
+        ],  # conditions
+      },  # Release
+    },  # configurations
+  },
   'targets': [
     {
       # a target for additional uconfig defines, target only
@@ -317,15 +374,15 @@
           'export_dependent_settings': [ 'icutools' ],
         }],
         ['_toolset=="target"', {
-          'dependencies': [ 
+          'dependencies': [
             'icuucx',
             'icustubdata',
-#            'icudata' 
+#            'icudata'
           ],
-          'export_dependent_settings': [ 
-            'icuucx', 
+          'export_dependent_settings': [
+            'icuucx',
             'icustubdata',
-#            'icudata' 
+#            'icudata'
           ],
         }],
       ],
